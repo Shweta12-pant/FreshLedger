@@ -1,0 +1,9 @@
+fastapi==0.141.1
+uvicorn==0.52.1
+SQLAlchemy==2.0.44
+PyMySQL[rsa]==1.1.2
+numpy==2.3.5
+scipy==1.16.3
+scikit-learn==1.8.0
+prometheus-client==0.23.1
+tzdata==2026.2

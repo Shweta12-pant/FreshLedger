@@ -1,0 +1,32 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: freshledger_test
+      MYSQL_USER: ledger
+      MYSQL_PASSWORD: disposable-ci
+      MYSQL_ROOT_PASSWORD: disposable-ci-root
+    tmpfs:
+      - /var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=disposable-ci mysql --protocol=tcp -h 127.0.0.1 -u ledger freshledger_test -Nse 'SELECT 1'"]
+      interval: 3s
+      timeout: 5s
+      retries: 30
+      start_period: 15s
+
+  test:
+    image: ${TEST_IMAGE:-freshledger-test:local}
+    build:
+      context: .
+      target: test
+    pull_policy: never
+    user: "${CI_UID:-1000}:${CI_GID:-1000}"
+    environment:
+      TEST_MYSQL_URL: mysql+pymysql://ledger:disposable-ci@mysql:3306/freshledger_test
+    command: ["python", "-m", "pytest", "-q", "-p", "no:cacheprovider", "--junitxml=/reports/junit.xml", "--cov=inventory", "--cov-report=term-missing", "--cov-report=xml:/reports/coverage.xml"]
+    volumes:
+      - ./reports:/reports
+    depends_on:
+      mysql:
+        condition: service_healthy

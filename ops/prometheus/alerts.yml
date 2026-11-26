@@ -1,0 +1,24 @@
+groups:
+  - name: freshledger
+    rules:
+      - alert: FreshLedgerApiUnavailable
+        expr: up{job="freshledger"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: FreshLedger metrics endpoint is unreachable
+      - alert: FreshLedgerDatabaseUnavailable
+        expr: freshledger_database_up == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: FreshLedger cannot query MySQL
+      - alert: FreshLedgerForecastStale
+        expr: (time() - freshledger_forecast_last_success_timestamp_seconds > 93600) and (freshledger_database_up == 1)
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: The latest demand forecast is more than 26 hours old

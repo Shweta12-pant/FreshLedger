@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2efeb" id="theme-color">
+  <title>FreshLedger · Food inventory</title>
+  <script src="/static/theme.js"></script>
+  <link rel="icon" href="/static/mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script type="module" src="/static/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to inventory workspace</a>
+  <div class="app-frame">
+    <header class="sidebar">
+      <a class="brand" href="#overview" aria-label="FreshLedger overview">
+        <img src="/static/mark.svg" alt="" width="36" height="36">
+        <span>FreshLedger</span>
+      </a>
+      <nav id="navigation" aria-label="Main navigation"></nav>
+      <div class="sidebar-foot">
+        <span class="store-icon" aria-hidden="true" id="store-icon"></span>
+        <div><strong>Store workspace</strong><span id="workspace-mode">Connecting…</span></div>
+      </div>
+    </header>
+    <div class="workspace">
+      <section class="topbar" aria-label="Workspace details">
+        <p class="breadcrumb"><span class="crumb-root">Workspace <span aria-hidden="true">/</span></span> <strong id="page-crumb">Overview</strong></p>
+        <div class="topbar-tools">
+          <span class="pill neutral demo-label" id="demo-label" hidden>Demo data</span>
+          <time id="store-date" class="store-date"></time>
+          <label class="theme-control">
+            <span id="theme-icon" aria-hidden="true"></span>
+            <span class="sr-only">Appearance</span>
+            <select id="theme-select">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+          </label>
+        </div>
+      </section>
+      <main id="main" class="content" tabindex="-1" aria-busy="true">
+        <h1 class="sr-only">FreshLedger inventory</h1>
+        <p class="loading" role="status">Loading inventory…</p>
+        <div class="loading-skeleton" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </div>
+      </main>
+    </div>
+  </div>
+  <dialog id="dialog"></dialog>
+  <div class="toast" id="toast" role="status"></div>
+</body>
+</html>
